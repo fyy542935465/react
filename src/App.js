@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import "./App.less"
-import {HashRouter as Router, Route, Switch} from 'react-router-dom'
+import {HashRouter as Router, Route, Switch,Redirect} from 'react-router-dom'
 import routes from './router'
+import './style/reset.css'
+import './style/main.less'
 class App extends Component {
     render() {
         return (
@@ -9,6 +11,7 @@ class App extends Component {
                 {this.props.children}
                 <Router>
                     <Switch>
+                        <Redirect exact from='/' to='/home'/>
                     {
                         routes.map((item, key) => {
                             if (item.exact) {

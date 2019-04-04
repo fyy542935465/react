@@ -83,10 +83,9 @@ module.exports = function (webpackEnv) {
             {
                 loader: require.resolve('less-loader'),
                 options: {
-                    modifyVars: {
-                        '@primary-color': '#f9c700'
-                    },
-                    javascriptEnabled: true    //允许通过js调用antd组件
+                    importLoaders: 2,
+                    modules: true,
+                    getLocalIdent: getCSSModuleLocalIdent,
                 }
             },
             {
@@ -285,7 +284,7 @@ module.exports = function (webpackEnv) {
                 // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
                 // please link the files into your node_modules/ and let module-resolution kick in.
                 // Make sure your source files are compiled, as they will not be processed in any way.
-                new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+                // new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
             ],
         },
         resolveLoader: {
@@ -411,6 +410,49 @@ module.exports = function (webpackEnv) {
                             // Remove this when webpack adds a warning or an error for this.
                             // See https://github.com/webpack/webpack/issues/6571
                             sideEffects: true,
+                        },
+                        {
+                            test: /\.(css|less)$/,
+                            use: [
+                                require.resolve('style-loader'),
+                                {
+                                    loader: require.resolve('css-loader'),
+                                    options: {
+                                        importLoaders: 1,
+                                    },
+                                },
+                                {
+                                    loader: require.resolve('postcss-loader'),
+                                    options: {
+                                        // Necessary for external CSS imports to work
+                                        // https://github.com/facebookincubator/create-react-app/issues/2677
+                                        ident: 'postcss',
+                                        plugins: () => [
+                                            require('postcss-flexbugs-fixes'),
+                                            autoprefixer({
+                                                browsers: [
+                                                    '>1%',
+                                                    'last 4 versions',
+                                                    'Firefox ESR',
+                                                    'not ie < 9', // React doesn't support IE8 anyway
+                                                ],
+                                                flexbox: 'no-2009',
+                                            }),
+                                        ],
+                                    },
+                                },
+                                {
+                                    loader: require.resolve('less-loader'), // compiles Less to CSS
+                                    options: {
+                                        modifyVars: {
+                                            'primary-color': '#f00',
+                                            'link-color': '#f00',
+                                            'border-radius-base': '2px',
+                                        },
+                                        javascriptEnabled: true,
+                                    }
+                                }
+                            ],
                         },
                         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
                         // using the extension .module.css

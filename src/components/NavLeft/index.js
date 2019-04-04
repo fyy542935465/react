@@ -8,29 +8,39 @@ import {
 
 import { withRouter } from "react-router-dom"
 import routes from '../../router'
+import { connect } from 'react-redux'
+import { switchMenu } from '../../store/action'
+import store from "../../store";
  
 const { SubMenu } = Menu;
-
 class NavLeft extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            menuName: store.getState().menuName
+        }
     }
 
-    componentDidMount() {
-
+    componentWillMount() {
+        let _this = this
+        store.subscribe( () => {
+            _this.setState({
+                menuName:store.getState().menuName
+            })
+        })
     }
 
     eachMenu(list){
         return list.map( (item,key) => {
             if(item.route){
                 return (
-                    <SubMenu key={item.key} title={<span><Icon type='user' />{item.name}</span>}>
+                    <SubMenu key={item.name} title={<span><Icon type='user' />{item.name}</span>}>
                         {this.eachSubmenu(item.route)}
                     </SubMenu>
                 )
             }else{
                 return (
-                    <Menu.Item key={item.key} onClick={this.pushRouter.bind(this,item.path)}>
+                    <Menu.Item key={item.name} onClick={this.pushRouter.bind(this,item.path)}>
                         <Icon type='user' />
                         <span>{item.name}</span>
                     </Menu.Item>
@@ -40,6 +50,7 @@ class NavLeft extends React.Component {
     }
 
     eachSubmenu(list){
+        console.log(list)
         return list.map( (item) => {
             return (
                 <Menu.Item key={item.name} onClick={this.pushRouter.bind(this,item.path)}>{item.name}</Menu.Item>
@@ -48,8 +59,6 @@ class NavLeft extends React.Component {
     }
 
     pushRouter(path){
-        let pathname = this.props.location.pathname
-        if(pathname == path) return;
         this.props.history.push(path)
     }
     render() {
@@ -58,8 +67,8 @@ class NavLeft extends React.Component {
                 <div id="navLeft">
                     <Menu
                       mode="inline"
-                      defaultSelectedKeys={['Another']}
-                      defaultOpenKeys={['sub1']}
+                      selectedKeys={[this.state.menuName]}
+                      defaultOpenKeys={['Home']}
                       style={{ height: '100%', borderRight: 0 }}
                     >
                         {this.eachMenu(routes)}
@@ -70,4 +79,4 @@ class NavLeft extends React.Component {
     }
 }
 
-export default withRouter(NavLeft)
+export default connect()(withRouter(NavLeft));
