@@ -7,10 +7,30 @@ import {
 } from 'antd';
 
 import { withRouter } from "react-router-dom"
-import routes from '../../router'
 import { connect } from 'react-redux'
 import { switchMenu } from '../../store/action'
 import store from "../../store";
+
+const menu = [
+    {
+        path: '/home',
+        component: 'Home',
+        name: 'Home',
+        key:'sub1',
+        route:[
+            {
+                path: '/home/another',
+                component: 'Another',
+                name: 'Another',
+            },
+            {
+                path: '/home/about',
+                component: 'About',
+                name: 'About'
+            }
+        ]
+    }
+]
  
 const { SubMenu } = Menu;
 class NavLeft extends React.Component {
@@ -71,7 +91,7 @@ class NavLeft extends React.Component {
                       defaultOpenKeys={['Home']}
                       style={{ height: '100%', borderRight: 0 }}
                     >
-                        {this.eachMenu(routes)}
+                        {this.eachMenu(menu)}
                     </Menu>
                 </div>
             </Col>

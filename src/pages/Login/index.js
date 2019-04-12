@@ -1,15 +1,47 @@
 import React from 'react';
-import style from './style.less'
-import { Input,Icon,Button } from 'antd'
+import './style.less'
+import { Input,Icon,Button,message } from 'antd'
 import { post }  from '../../util/http'
-console.log(post)
-export default class Login extends React.Component{
+import { LOGIN ,REGISTER} from '../../config/api'
+import { loading,handleChange} from '../../util'
+import { withRouter } from "react-router-dom"
+import { setToken,setId} from '../../store/action'
+import store from '../../store'
+class Login extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             register:false,
-            title:'登录'
+            title:'登录',
+            form:{
+                username:'',
+                password:''
+            },
+            token:store.getState().token,
+            userId:store.getState().userId,
         }
+        this.userOperation = this.userOperation.bind(this)
+    }
+
+
+    componentWillMount() {
+        let _this = this
+        store.subscribe( () => {
+            _this.setState({
+                token:store.getState().token,
+                userId:store.getState().userId
+            })
+        })
+    }
+
+    resetForm(){
+        let form = {
+            username:'',
+            password:''
+        }
+        this.setState({
+            form:form
+        })
     }
 
     toRegister(){
@@ -17,6 +49,8 @@ export default class Login extends React.Component{
             title:'注册',
             register:true
         })
+
+        this.resetForm()
     }
 
     toLogin(){
@@ -24,6 +58,7 @@ export default class Login extends React.Component{
             title:'登录',
             register:false
         })
+        this.resetForm()
     }
 
     renderRegister(){
@@ -43,14 +78,31 @@ export default class Login extends React.Component{
     }
 
     userOperation(){
-        post('/login',{
-            username:'111',
-            password:222
+        let _this = this
+        let currentPath = this.props.pathname
+        if(!this.state.form.username){
+            message.warning('账号不能为空')
+            return
+        }
+        if(!this.state.form.password){
+            message.warning('密码不能为空')
+            return
+        }
+
+        let url = this.state.register? REGISTER : LOGIN
+        loading(true)
+        post(url,{
+            username:this.state.form.username,
+            password:this.state.form.password
         },res => {
-            console.log(res)
+            loading(false)
+            _this.props.history.push(currentPath);
+             store.dispatch(setToken(res.token))
+             store.dispatch(setId(res.userId))
+            localStorage.setItem('token',res.token)
+            localStorage.setItem('userId',res.userId)
         })
     }
-
     render() {
         return (
             <div id="user">
@@ -61,11 +113,23 @@ export default class Login extends React.Component{
                     <div id="form-container">
                         <div className="form-item">
                             <Input placeholder="请输入账号"
+                                   onChange={ event =>{
+                                       handleChange('username',event,this)
+                                   } }
                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                   value={this.state.form.username}
                             />
                         </div>
                         <div className="form-item">
-                            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="请输入密码" />
+                            <Input
+                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                type="password"
+                                placeholder="请输入密码"
+                                onChange={ event =>{
+                                    handleChange('password',event,this)
+                                } }
+                                value={this.state.form.password}
+                            />
                         </div>
 
                         <div className="form-item">
@@ -78,3 +142,5 @@ export default class Login extends React.Component{
         )
     }
 }
+
+export default withRouter(Login)

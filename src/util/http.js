@@ -1,15 +1,21 @@
 import axios from 'axios';
-import env from '../env'
-import site from '../config/api'
-const api = site[env.CURRENT]
+import { message} from 'antd'
+import { loading } from './index'
 
-console.log(api)
+const checkStatus = (res,sCallBack) => {
+    if(!res.data.status){
+        loading(false)
+        message.error(res.data.data.msg)
+        return;
+    }
+
+    sCallBack && sCallBack(res.data.data)
+}
 
 export const get = (url,params,callback) => {
-    console.log(url)
-    return axios.get(api + url,params)
+    return axios.get(url,params)
         .then( res => {
-            callback(res)
+            checkStatus(res,callback)
         }).catch( err => {
             console.log(err)
         })
@@ -17,9 +23,9 @@ export const get = (url,params,callback) => {
 
 export const post = (url,params,callback) => {
     console.log(url)
-    return axios.post(api + url,params)
+    return axios.post( url,params)
         .then( res => {
-            callback(res)
+            checkStatus(res,callback)
         }).catch( err => {
             console.log(err)
         })

@@ -7,7 +7,8 @@ import { Provider } from 'react-redux';
 import store from './store';
 import routes from "./router";
 import {switchMenu} from "./store/action";
-
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import { LocaleProvider } from 'antd'
 
 function changePopstate(){
     let currentPath = window.location.hash.replace(/#|\?.*$/g,'');
@@ -17,7 +18,6 @@ function changePopstate(){
             if(item.name == name){
                 return;
             }
-            store.dispatch(switchMenu(item.name))
             return false;
         }
         if (item.route && item.route.length){
@@ -43,7 +43,9 @@ window.addEventListener('popstate',(state) => {
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <LocaleProvider locale={zhCN}>
+            <App />
+        </LocaleProvider>
     </Provider>,
     document.getElementById('root')
 );
