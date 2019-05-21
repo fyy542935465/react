@@ -10,12 +10,13 @@ import {
 } from 'antd';
 import './style.less'
 import { connect } from 'react-redux'
-import { get, post } from '../../util/http'
+import { get, post,formdata} from '../../util/http'
 import { GETUSERINFO, UPLOAD } from '../../config/api'
 import { loading, handleChange } from '../../util'
 import config from '../../config'
 import store from '../../store'
 import { setToken,setId } from '../../store/action'
+import global from '../../config/global'
 const avatar = require('../../common/img/avatar.png')
 
 const { Header } = Layout;
@@ -25,13 +26,13 @@ class Theader extends React.Component {
         super(props);
         this.state = {
             visible: false,
-            userAvatar: avatar,
+            userAvatar: "",
             username: '',
             form: {
                 username: '',
                 files: ''
             },
-            formAvatar: avatar,
+            formAvatar: "",
             userId:store.getState().userId,
             menu: <Menu>
                     <Menu.Item key="1" onClick={this.handleVisibleShow}>
@@ -106,8 +107,8 @@ class Theader extends React.Component {
 
             _this.setState({
                 username: res.username,
-                userAvatar: res.img ? config.imgUrl + res.img : avatar,
-                formAvatar: res.img ? config.imgUrl + res.img : avatar,
+                userAvatar: res.img ? global.imgUrl + res.img : avatar,
+                formAvatar: res.img ? global.imgUrl + res.img : avatar,
                 form: from
             })
         })
@@ -148,7 +149,7 @@ class Theader extends React.Component {
                 <div className="logo">LOGO</div>
                 <Dropdown overlay={this.state.menu} trigger={['click']}>
                     <div id="userCenter">
-                        <img src={this.state.userAvatar} className="avatar" />
+                        {this.state.formAvatar? <img src={this.state.userAvatar} className="avatar" /> : ''}
                         <span className="username">{this.state.username}</span>
 
                     </div>
@@ -163,7 +164,7 @@ class Theader extends React.Component {
                     >
                     <div className="user-info-item">
                         <label>头像：</label>
-                        <img src={this.state.formAvatar} className="avatar" />
+                        {this.state.formAvatar? <img src={this.state.formAvatar} className="avatar" /> : ''}
                         <Button type="primary" className="upload-avatar-btn" onClick={this.uploadAvatar}>上传头像</Button>
                         <input type="file" id="uploadInput" onChange={this.handleChange}/>
                     </div>
@@ -184,4 +185,4 @@ class Theader extends React.Component {
 }
 
 
-export default connect()(Theader);
+export default Theader;

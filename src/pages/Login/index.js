@@ -4,8 +4,9 @@ import { Input,Icon,Button,message } from 'antd'
 import { post }  from '../../util/http'
 import { LOGIN ,REGISTER} from '../../config/api'
 import { loading,handleChange} from '../../util'
-import { withRouter } from "react-router-dom"
 import { setToken,setId} from '../../store/action'
+import { mapStateToProps } from '../../util'
+import { connect } from 'react-redux'
 import store from '../../store'
 class Login extends React.Component{
     constructor(props){
@@ -17,21 +18,7 @@ class Login extends React.Component{
                 username:'',
                 password:''
             },
-            token:store.getState().token,
-            userId:store.getState().userId,
         }
-        this.userOperation = this.userOperation.bind(this)
-    }
-
-
-    componentWillMount() {
-        let _this = this
-        store.subscribe( () => {
-            _this.setState({
-                token:store.getState().token,
-                userId:store.getState().userId
-            })
-        })
     }
 
     resetForm(){
@@ -79,7 +66,6 @@ class Login extends React.Component{
 
     userOperation(){
         let _this = this
-        let currentPath = this.props.pathname
         if(!this.state.form.username){
             message.warning('账号不能为空')
             return
@@ -96,11 +82,11 @@ class Login extends React.Component{
             password:this.state.form.password
         },res => {
             loading(false)
-            _this.props.history.push(currentPath);
-             store.dispatch(setToken(res.token))
-             store.dispatch(setId(res.userId))
+            store.dispatch(setToken(res.token))
+            store.dispatch(setId(res.userId))
             localStorage.setItem('token',res.token)
             localStorage.setItem('userId',res.userId)
+            _this.props.history.push('/home');
         })
     }
     render() {
@@ -133,7 +119,7 @@ class Login extends React.Component{
                         </div>
 
                         <div className="form-item">
-                            <Button type="primary" onClick={this.userOperation} block>{this.state.title}</Button>
+                            <Button type="primary" onClick={this.userOperation.bind(this)} block>{this.state.title}</Button>
                         </div>
                         {this.renderRegister()}
                     </div>
@@ -143,4 +129,4 @@ class Login extends React.Component{
     }
 }
 
-export default withRouter(Login)
+export default connect(mapStateToProps)(Login);

@@ -2,6 +2,8 @@ import Home from "../pages/Home"
 import Another from "../pages/Another"
 import About from "../pages/About"
 import Login from "../pages/Login"
+import HomeIndex from "../pages/homeIndex"
+import Article from "../pages/Article"
 
 
 export default [
@@ -12,14 +14,19 @@ export default [
         key:'sub1',
         route:[
             {
-                path: '/home/another',
-                component: Another,
-                name: 'Another',
+                path: '/home/homeIndex',
+                component: HomeIndex,
+                name: '首页',
+            },
+            {
+                path: '/home/article',
+                component: Article,
+                name: '文章'
             },
             {
                 path: '/home/about',
                 component: About,
-                name: 'About'
+                name: '关于我们'
             }
         ]
     },

@@ -10,27 +10,8 @@ import { withRouter } from "react-router-dom"
 import { connect } from 'react-redux'
 import { switchMenu } from '../../store/action'
 import store from "../../store";
+import menu from "../../config/menu"
 
-const menu = [
-    {
-        path: '/home',
-        component: 'Home',
-        name: 'Home',
-        key:'sub1',
-        route:[
-            {
-                path: '/home/another',
-                component: 'Another',
-                name: 'Another',
-            },
-            {
-                path: '/home/about',
-                component: 'About',
-                name: 'About'
-            }
-        ]
-    }
-]
  
 const { SubMenu } = Menu;
 class NavLeft extends React.Component {
@@ -54,14 +35,14 @@ class NavLeft extends React.Component {
         return list.map( (item,key) => {
             if(item.route){
                 return (
-                    <SubMenu key={item.name} title={<span><Icon type='user' />{item.name}</span>}>
+                    <SubMenu key={item.name} title={<span><Icon type= {item.icon} />{item.name}</span>}>
                         {this.eachSubmenu(item.route)}
                     </SubMenu>
                 )
             }else{
                 return (
                     <Menu.Item key={item.name} onClick={this.pushRouter.bind(this,item.path)}>
-                        <Icon type='user' />
+                        <Icon type={item.icon} />
                         <span>{item.name}</span>
                     </Menu.Item>
                 )
@@ -79,6 +60,7 @@ class NavLeft extends React.Component {
     }
 
     pushRouter(path){
+        console.log(path)
         this.props.history.push(path)
     }
     render() {

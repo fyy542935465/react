@@ -17,3 +17,9 @@ export const handleChange = (key, event,_this) => {
         }
     }
 }
+
+export const mapStateToProps = (state) => {
+    return {
+        store:state
+    }
+  }

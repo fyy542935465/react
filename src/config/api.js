@@ -1,7 +1,7 @@
 import site from './index'
 import env from '../env'
 
-const api = site[env.CURRENT]
+const api = site[env.CURRENT].url
 
 //登录
 export const LOGIN = api + '/login'
@@ -13,4 +13,4 @@ export const REGISTER = api + '/register'
 export const GETUSERINFO = api + '/getUserInfo'
 
 //上传头像
-export const UPLOAD = api + '/upload'
+export const UPLOAD = api + '/uploadImg'

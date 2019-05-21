@@ -3,13 +3,26 @@ import NavLeft from '../../components/NavLeft'
 import Theader from '../../components/Header'
 import Content from '../../components/Content'
 import {Route,Redirect} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { mapStateToProps } from '../../util'
 import {
     Row
 } from 'antd'
 
-export default class Home extends React.Component{
+class Home extends React.Component{
     constructor(props){
         super(props);
+    }
+
+    eachSubRoutes(){
+        let token = localStorage.getItem('token')
+        return this.props.routes.map((item,key) => {
+            return token? <Route key={key} path={item.path} component={item.component} /> : <Route path={item.path} key={key}
+                render={props => (
+                    <Redirect to='/login'></Redirect>
+                )}
+            />
+        })
     }
 
     render() {
@@ -20,13 +33,12 @@ export default class Home extends React.Component{
                         <NavLeft />
                         
                         <Content>
+                            <div>{this.props.store.menuName}</div>
                             <Route exact path="/home" render={() =>
-                                <Redirect to='/home/another'></Redirect>}>
+                                <Redirect to='/home/homeIndex'></Redirect>}>
                             </Route>
                             {
-                                this.props.routes.map((item,key) => {
-                                    return <Route key={key} path={item.path} component={item.component} />
-                                })
+                                this.eachSubRoutes()
                             }
                         </Content>
                     </Row>
@@ -34,3 +46,5 @@ export default class Home extends React.Component{
         )
     }
 }
+
+export default connect(mapStateToProps)(Home)

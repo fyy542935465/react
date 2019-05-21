@@ -1,0 +1,39 @@
+@import '../../style/mixin.less';
+#user{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:@primary-color;
+  #container {
+    width:400px;
+    padding:20px;
+    background:#fff;
+    border-radius: 5px;
+    .blockCenter();
+    #form-container{
+      text-align: center;
+      .form-item{
+        margin:15px 0;
+        input,button{
+          height:40px;
+        }
+      }
+    }
+    .go{
+      text-align: right;
+      span{
+        color:@primary-color;
+        font-size: 12px;
+        cursor: pointer;
+      }
+    }
+
+    .title{
+      color:#666;
+      font-size: 18px;
+      border-bottom:1px solid #ccc;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+  }
+}

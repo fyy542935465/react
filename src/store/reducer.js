@@ -7,8 +7,8 @@ import { type } from './action'
 const initialState = {
     menuName:'首页',
     loading:false,
-    token:'',
-    userId:''
+    token:localStorage.getItem('token') || '',
+    userId:localStorage.getItem('userId') || ''
 }
 
 export default (state=initialState,action) => {
