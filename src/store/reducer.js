@@ -6,6 +6,7 @@ import { type } from './action'
 
 const initialState = {
     menuName:'首页',
+    defaultMenuKey:'首页',
     loading:false,
     token:localStorage.getItem('token') || '',
     userId:localStorage.getItem('userId') || ''
@@ -18,6 +19,11 @@ export default (state=initialState,action) => {
             return {
                 ...state,
                 menuName: action.menuName
+            }
+        case type.DEFAULT_MENU_KEY:
+            return {
+                ...state,
+                defaultMenuKey: action.defaultMenuKey
             }
         //loading
         case type.LOADING:

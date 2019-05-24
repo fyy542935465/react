@@ -2,9 +2,9 @@ import React,{Fragment} from 'react';
 import NavLeft from '../../components/NavLeft'
 import Theader from '../../components/Header'
 import Content from '../../components/Content'
-import {Route,Redirect} from 'react-router-dom'
+import {HashRouter as Router,Route,Redirect,Switch} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { mapStateToProps } from '../../util'
+import util from '../../util'
 import {
     Row
 } from 'antd'
@@ -15,9 +15,12 @@ class Home extends React.Component{
     }
 
     eachSubRoutes(){
+        let isLogin = this.props.store.token
         let token = localStorage.getItem('token')
         return this.props.routes.map((item,key) => {
-            return token? <Route key={key} path={item.path} component={item.component} /> : <Route path={item.path} key={key}
+            return token? <Route key={key} path={item.path} render={props => (
+                <item.component {...props} isLogin={isLogin} routes={item.route || ''} />
+            )} /> : <Route path={item.path} key={key}
                 render={props => (
                     <Redirect to='/login'></Redirect>
                 )}
@@ -33,13 +36,16 @@ class Home extends React.Component{
                         <NavLeft />
                         
                         <Content>
-                            <div>{this.props.store.menuName}</div>
-                            <Route exact path="/home" render={() =>
+                            {/* <Route exact path="/home" render={() =>
                                 <Redirect to='/home/homeIndex'></Redirect>}>
-                            </Route>
-                            {
-                                this.eachSubRoutes()
-                            }
+                            </Route> */}
+                            <Router>
+                                <Switch>
+                                    {
+                                        this.eachSubRoutes()
+                                    }
+                                </Switch>
+                            </Router>
                         </Content>
                     </Row>
             </Fragment>
@@ -47,4 +53,4 @@ class Home extends React.Component{
     }
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(util.mapStateToProps)(Home)

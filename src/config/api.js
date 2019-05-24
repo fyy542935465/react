@@ -1,7 +1,8 @@
 import site from './index'
 import env from '../env'
 
-const api = site[env.CURRENT].url
+// const api = site[env.CURRENT].url
+const api = ""
 
 //登录
 export const LOGIN = api + '/login'

@@ -8,27 +8,20 @@ import {
 
 import { withRouter } from "react-router-dom"
 import { connect } from 'react-redux'
-import { switchMenu } from '../../store/action'
-import store from "../../store";
 import menu from "../../config/menu"
-
+import util  from '../../util'
  
 const { SubMenu } = Menu;
 class NavLeft extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            menuName: store.getState().menuName
+            
         }
     }
 
     componentWillMount() {
-        let _this = this
-        store.subscribe( () => {
-            _this.setState({
-                menuName:store.getState().menuName
-            })
-        })
+        console.log(this.props.store)
     }
 
     eachMenu(list){
@@ -69,8 +62,8 @@ class NavLeft extends React.Component {
                 <div id="navLeft">
                     <Menu
                       mode="inline"
-                      selectedKeys={[this.state.menuName]}
-                      defaultOpenKeys={['Home']}
+                      selectedKeys={[this.props.store.menuName]}
+                      defaultOpenKeys={[this.props.store.defaultMenuKey]}
                       style={{ height: '100%', borderRight: 0 }}
                     >
                         {this.eachMenu(menu)}
@@ -81,4 +74,4 @@ class NavLeft extends React.Component {
     }
 }
 
-export default connect()(withRouter(NavLeft));
+export default withRouter(connect(util.mapStateToProps)(NavLeft))

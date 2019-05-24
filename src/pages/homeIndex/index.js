@@ -8,7 +8,7 @@ export default class HomeIndex extends React.Component{
     render() {
         return (
             <div>
-                home
+                首页
             </div>
         )
     }

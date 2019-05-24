@@ -7,7 +7,7 @@ import './style/main.less'
 import Loading from './components/Loading'
 import Login from './pages/Login'
 import { connect } from 'react-redux'
-import { mapStateToProps } from './util'
+import util from './util'
 class App extends Component {
     constructor(props) {
         super(props);
@@ -59,4 +59,4 @@ class App extends Component {
     }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(util.mapStateToProps)(App);

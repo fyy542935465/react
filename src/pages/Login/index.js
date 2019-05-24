@@ -1,11 +1,9 @@
 import React from 'react';
 import './style.less'
 import { Input,Icon,Button,message } from 'antd'
-import { post }  from '../../util/http'
+import util from '../../util'
 import { LOGIN ,REGISTER} from '../../config/api'
-import { loading,handleChange} from '../../util'
 import { setToken,setId} from '../../store/action'
-import { mapStateToProps } from '../../util'
 import { connect } from 'react-redux'
 import store from '../../store'
 class Login extends React.Component{
@@ -76,12 +74,12 @@ class Login extends React.Component{
         }
 
         let url = this.state.register? REGISTER : LOGIN
-        loading(true)
-        post(url,{
+        util.loading(true)
+        util.post(url,{
             username:this.state.form.username,
             password:this.state.form.password
         },res => {
-            loading(false)
+            util.loading(false)
             store.dispatch(setToken(res.token))
             store.dispatch(setId(res.userId))
             localStorage.setItem('token',res.token)
@@ -100,7 +98,7 @@ class Login extends React.Component{
                         <div className="form-item">
                             <Input placeholder="请输入账号"
                                    onChange={ event =>{
-                                       handleChange('username',event,this)
+                                    util.handleChange('username',event,this)
                                    } }
                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                    value={this.state.form.username}
@@ -112,7 +110,7 @@ class Login extends React.Component{
                                 type="password"
                                 placeholder="请输入密码"
                                 onChange={ event =>{
-                                    handleChange('password',event,this)
+                                    util.handleChange('password',event,this)
                                 } }
                                 value={this.state.form.password}
                             />
@@ -129,4 +127,4 @@ class Login extends React.Component{
     }
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(util.mapStateToProps)(Login);

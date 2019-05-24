@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import store from './store';
 import routes from "./router";
-import {switchMenu} from "./store/action";
+import {switchMenu,defaultMenuKey} from "./store/action";
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { LocaleProvider } from 'antd'
 
@@ -23,11 +23,24 @@ function changePopstate(){
         if (item.route && item.route.length){
             item.route.forEach( it => {
                 if(it.path == currentPath){
-                    if(item.name == name){
+                    if(it.name == name){
                         return;
                     }
                     store.dispatch(switchMenu(it.name))
                     return false;
+                }
+
+                if (it.route && it.route.length){
+                    it.route.forEach( that => {
+                        if(that.path == currentPath){
+                            store.dispatch(defaultMenuKey(it.name))
+                            if(that.name == name){
+                                return;
+                            }
+                            store.dispatch(switchMenu(that.name))
+                            return false;
+                        }
+                    })
                 }
             })
         }

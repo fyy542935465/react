@@ -5,7 +5,8 @@ export const type = {
     SWITCH_MENU:'SWITCH_MENU',
     LOADING:'LOADING',
     TOKEN:'TOKEN',
-    ID:'ID'
+    ID:'ID',
+    DEFAULT_MENU_KEY:'DEFAULT_MENU_KEY'
 }
 
 /*
@@ -19,12 +20,22 @@ export const switchMenu = (menuName) => {
 }
 
 /*
-* 菜单高亮选中
+* loading
 * */
 export const Loading = (status) => {
     return {
         type:type.LOADING,
         status
+    }
+}
+
+/*
+* 自己菜单选中父级菜单展开
+* */
+export const defaultMenuKey = (defaultMenuKey) => {
+    return {
+        type:type.DEFAULT_MENU_KEY,
+        defaultMenuKey
     }
 }
 

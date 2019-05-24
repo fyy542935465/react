@@ -9,14 +9,13 @@ import {
     Icon
 } from 'antd';
 import './style.less'
-import { connect } from 'react-redux'
-import { get, post,formdata} from '../../util/http'
 import { GETUSERINFO, UPLOAD } from '../../config/api'
-import { loading, handleChange } from '../../util'
+import util from '../../util'
 import config from '../../config'
 import store from '../../store'
 import { setToken,setId } from '../../store/action'
 import global from '../../config/global'
+import { connect } from 'react-redux'
 const avatar = require('../../common/img/avatar.png')
 
 const { Header } = Layout;
@@ -33,7 +32,7 @@ class Theader extends React.Component {
                 files: ''
             },
             formAvatar: "",
-            userId:store.getState().userId,
+            userId:this.props.store.userId,
             menu: <Menu>
                     <Menu.Item key="1" onClick={this.handleVisibleShow}>
                       个人中心
@@ -45,17 +44,7 @@ class Theader extends React.Component {
     }
 
     componentWillMount() {
-        let _this = this
-        store.subscribe(() => {
-            _this.setState({
-                userId: store.getState().userId
-            })
-        })
-
-        setTimeout( () => {
-            _this.getUserInfo()
-        },50)
-        console.log(this.state)
+        this.getUserInfo()
     }
 
     handleCancel = (e) => {
@@ -83,7 +72,7 @@ class Theader extends React.Component {
         formData.append('imgFile', this.state.files)
         formData.append('username', this.state.form.username)
         formData.append('userId', localStorage.getItem('userId'))
-        post(UPLOAD, formData, res => {
+        util.post(UPLOAD, formData, res => {
             _this.getUserInfo()
         })
         this.setState({
@@ -94,13 +83,13 @@ class Theader extends React.Component {
     getUserInfo = () => {
         console.log(this.state.userId)
         let _this = this
-        loading(true)
-        get(GETUSERINFO, {
+        util.loading(true)
+        util.get(GETUSERINFO, {
             params: {
                 userId:localStorage.getItem('userId') || _this.state.userId
             }
         }, res => {
-            loading(false)
+            util.loading(false)
             let from = {
                 username: res.username
             }
@@ -172,7 +161,7 @@ class Theader extends React.Component {
                     <div className="user-info-item">
                         <label>昵称：</label>
                         <Input className="user-input" value={this.state.form.username} onChange={ event =>{
-                                    handleChange('username',event,this)
+                                    util.handleChange('username',event,this)
                                 } }/>
                     </div>
                       
@@ -185,4 +174,4 @@ class Theader extends React.Component {
 }
 
 
-export default Theader;
+export default connect(util.mapStateToProps)(Theader)

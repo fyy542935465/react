@@ -8,7 +8,7 @@ export default class Another extends React.Component{
     render() {
         return (
             <div>
-                About
+                当你看到这条信息你已经追尾了
             </div>
         )
     }

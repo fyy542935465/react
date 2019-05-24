@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { message} from 'antd'
-import { loading } from './index'
+import util from './index'
 
 const checkStatus = (res,sCallBack) => {
     if(!res.data.status){
-        loading(false)
+        util.loading(false)
         message.error(res.data.data.msg)
         return;
     }
