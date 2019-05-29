@@ -5,8 +5,9 @@ import Login from "../pages/Login"
 import HomeIndex from "../pages/homeIndex"
 import Article from "../pages/Article"
 import ArticleList from "../components/ArticleList"
-import ArticleAdmin from "../components/ArticleAdmin"
+import ArticleManage from "../components/ArticleManage"
 import ArticleDetails from "../components/ArticleDetails"
+import Admin from "../pages/Admin"
 
 
 export default [
@@ -44,11 +45,16 @@ export default [
                         name: '文章列表'
                     },
                     {
-                        path: '/article/admin',
-                        component: ArticleAdmin,
+                        path: '/article/manage',
+                        component: ArticleManage,
                         name: '文章管理'
                     }
                 ]
+            },
+            {
+                path: '/admin',
+                component: Admin,
+                name: '后台管理'
             },
             {
                 path: '/about',

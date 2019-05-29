@@ -1,6 +1,7 @@
 import store from '../store'
 import { Loading } from "../store/action"
 import { get, post } from './http'
+import { Modal,Button} from 'antd'
 
 /*
 *
@@ -25,10 +26,24 @@ const mapStateToProps = (state) => {
     }
 }
 
+const confirm = (msg,confirmFn,cancelFn) => {
+    Modal.confirm({
+        title:'提示',
+        content:msg,
+        onOk(){
+            confirmFn && confirmFn()
+        },
+        onCancel(){
+            cancelFn && cancelFn()
+        }
+    })
+}
+
 export default {
     get,
     post,
     handleChange,
     mapStateToProps,
-    loading
+    loading,
+    confirm
 }

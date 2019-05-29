@@ -5,7 +5,7 @@ import style from './style.less'
 import util from '../../util'
 import { connect } from 'react-redux';
 
-class ArticleAdmin extends React.Component {
+class ArticleManage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -50,9 +50,27 @@ class ArticleAdmin extends React.Component {
         })
     }
 
+    componentWillMount(){
+        let id = this.props.location.search.split('=')[1]
+        if(!id){
+            return
+        }
+        util.get('/article/' + id,{}, res => {
+            console.log(res)
+            let form = {
+                editContent:res.editContent,
+                title:'editContent'
+            }
+
+            this.setState({
+                form:form
+            })
+        })
+    }
+
     render() {
         return (
-            <div id="articleAdmin">
+            <div id="articleManage">
                 <Row className="article-title">
                     <Col span={3}><label>文章标题</label></Col>
                     <Col span={12}>
@@ -74,4 +92,4 @@ class ArticleAdmin extends React.Component {
     }
 }
 
-export default connect(util.mapStateToProps)(ArticleAdmin)
+export default connect(util.mapStateToProps)(ArticleManage)

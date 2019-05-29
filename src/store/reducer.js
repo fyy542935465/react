@@ -5,15 +5,15 @@
 import { type } from './action'
 
 const initialState = {
-    menuName:'首页',
-    defaultMenuKey:'首页',
-    loading:false,
-    token:localStorage.getItem('token') || '',
-    userId:localStorage.getItem('userId') || ''
+    menuName: '首页',
+    defaultMenuKey: '首页',
+    loading: false,
+    token: localStorage.getItem('token') || '',
+    userId: localStorage.getItem('userId') || ''
 }
 
-export default (state=initialState,action) => {
-    switch(action.type){
+export default (state = initialState, action) => {
+    switch (action.type) {
         //菜单选中
         case type.SWITCH_MENU:
             return {

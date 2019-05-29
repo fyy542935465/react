@@ -85,9 +85,7 @@ class Theader extends React.Component {
         let _this = this
         util.loading(true)
         util.get(GETUSERINFO, {
-            params: {
-                userId:localStorage.getItem('userId') || _this.state.userId
-            }
+            userId:localStorage.getItem('userId') || _this.state.userId
         }, res => {
             util.loading(false)
             let from = {

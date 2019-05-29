@@ -4,18 +4,18 @@ import util from "../../util"
 import { connect } from 'react-redux';
 import "./style.less"
 
-class ArticleList extends React.Component{
-    constructor(props){
+class ArticleList extends React.Component {
+    constructor(props) {
         super(props)
         this.state = {
-            columns:[
+            defaultData: [
                 {
                     title: '文章标题',
                     dataIndex: 'title',
                     key: 'title',
-                    render:(text,record) => (
+                    render: (text, record) => (
                         <span>
-                            <a href="javascript:;" onClick={this.getDetail.bind(this,record._id)}>{record.title}</a>
+                            <a href="javascript:;" className="article-title" onClick={this.getDetail.bind(this, record._id)}>{record.title}</a>
                         </span>
                     )
                 },
@@ -29,31 +29,85 @@ class ArticleList extends React.Component{
                     dataIndex: 'updateTime',
                     key: 'updateTime',
                 }
-            ]
+            ],
+            tabs: ['所有', '我的'],
+            activeVal: '所有'
         }
     }
 
-    componentWillMount(){
-        this.getArticleList()
+    componentWillMount() {
+        this.getArticleList(this.state.activeVal)
     }
 
-    getDetail(id){
+    getDetail(id) {
         this.props.history.push(`/detail/${id}`)
     }
 
-    getArticleList(){
-        let params = {
-            userId:this.props.store.userId
-        }
-        util.get('/article/getArticleList',params, res => {
-            this.setState({
-                dataSource:res
+    edit(id){
+        this.props.history.push('/article/manage?id=' + id)
+    }
+
+    delete(id){
+        util.post('/article/delete',{
+            id:id
+        }, res => {
+            console.log(res)
+            this.getArticleList(this.state.activeVal)
+        })
+    }
+
+    getArticleList(item) {
+        let params = {}
+        let columns = [].concat(this.state.defaultData)
+        if (item != '所有') {
+            params.userId = this.props.store.userId
+            columns.push({
+                title: '操作',
+                dataIndex: 'oprate',
+                key: 'oprate',
+                render: (text, record) => (
+                    <div className="oprate">
+                        <a href="javascript:;" onClick={this.edit.bind(this, record._id)}>编辑</a>
+                        <a href="javascript:;" onClick={this.delete.bind(this, record._id)}>删除</a>
+                    </div>
+                )
             })
+        }
+
+        util.loading(true)
+        util.get('/article/getArticleList', params, res => {
+            util.loading(false)
+            res.map( (item,index) => {
+                item.key = index
+            })
+            this.setState({
+                dataSource: res,
+                columns:columns
+            })
+        })
+    }
+
+    swtch(item) {
+        this.setState({
+            activeVal: item
+        })
+
+        this.getArticleList(item)
+    }
+
+    renderTabs() {
+        return this.state.tabs.map((item, index) => {
+            return (
+                <span key={index} className={this.state.activeVal == item ? 'active' : ''} onClick={this.swtch.bind(this, item)}>{item}</span>
+            )
         })
     }
     render() {
         return (
             <div id="articleList">
+                <div className="tabs">
+                    {this.renderTabs()}
+                </div>
                 <Table dataSource={this.state.dataSource} columns={this.state.columns} on />
             </div>
         )

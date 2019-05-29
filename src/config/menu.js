@@ -18,12 +18,18 @@ export default [
                 icon:'book',
             },
             {
-                path: '/article/admin',
-                component: 'ArticleAdmin',
+                path: '/article/manage',
+                component: 'ArticleManage',
                 name: '文章管理',
                 icon:'book',
             }
         ]
+    },
+    {
+        path: '/admin',
+        component: 'Admin',
+        name: '后台管理',
+        icon: 'user'
     },
     {
         path: '/about',

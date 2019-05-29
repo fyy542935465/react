@@ -13,7 +13,9 @@ const checkStatus = (res,sCallBack) => {
 }
 
 export const get = (url,params,callback) => {
-    return axios.get(url,params)
+    return axios.get(url,{
+        params:params
+    })
         .then( res => {
             checkStatus(res,callback)
         }).catch( err => {

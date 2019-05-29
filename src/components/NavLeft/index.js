@@ -16,16 +16,24 @@ class NavLeft extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            menuList : ''
         }
     }
 
     componentWillMount() {
-        console.log(this.props.store)
+        util.get('/getAdmin',{userId:this.props.store.userId}, res => {
+            console.log(res)
+            this.eachMenu(menu,res)
+        })
     }
 
-    eachMenu(list){
-        return list.map( (item,key) => {
+
+    eachMenu(list,res){
+        let menuList =  list.map( (item,key) => {
+            if(!res.superAdmin && !res.isAdmin){
+                if(item.path == '/admin') return
+            }
+
             if(item.route){
                 return (
                     <SubMenu key={item.name} title={<span><Icon type= {item.icon} />{item.name}</span>}>
@@ -41,10 +49,13 @@ class NavLeft extends React.Component {
                 )
             }
         })
+
+        this.setState({
+            menuList:menuList
+        })
     }
 
     eachSubmenu(list){
-        console.log(list)
         return list.map( (item) => {
             return (
                 <Menu.Item key={item.name} onClick={this.pushRouter.bind(this,item.path)}>{item.name}</Menu.Item>
@@ -53,7 +64,6 @@ class NavLeft extends React.Component {
     }
 
     pushRouter(path){
-        console.log(path)
         this.props.history.push(path)
     }
     render() {
@@ -66,7 +76,7 @@ class NavLeft extends React.Component {
                       defaultOpenKeys={[this.props.store.defaultMenuKey]}
                       style={{ height: '100%', borderRight: 0 }}
                     >
-                        {this.eachMenu(menu)}
+                        {this.state.menuList}
                     </Menu>
                 </div>
             </Col>

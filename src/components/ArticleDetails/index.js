@@ -30,14 +30,14 @@ class ArticleDetails extends React.Component{
         return (
             <div>
                 <Theader></Theader>
-                <div id="articleDetails">
+                <div id="articleDetails" style={{display:(this.state.info.title)? 'block' : 'none'}}>
                     <Row>
                         <Col span={16}>
-                            <div class="article-top">
-                                <span class="article-title">{this.state.info.title}</span>
-                                <span class="update-time">{this.state.info.updateTime}&nbsp;&nbsp;&nbsp;&nbsp;作者:{this.state.info.author}</span>
+                            <div className="article-top">
+                                <span className="article-title">{this.state.info.title}</span>
+                                <span className="update-time">{this.state.info.updateTime}&nbsp;&nbsp;&nbsp;&nbsp;作者：{this.state.info.author}</span>
                             </div>
-                            <div class="article-content" dangerouslySetInnerHTML={{__html:this.state.info.editContent}}></div>
+                            <div className="article-content" dangerouslySetInnerHTML={{__html:this.state.info.editContent}}></div>
                         </Col>
                         <Col span={8}>
 
