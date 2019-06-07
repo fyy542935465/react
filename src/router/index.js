@@ -47,7 +47,7 @@ export default [
                     {
                         path: '/article/manage',
                         component: ArticleManage,
-                        name: '文章管理'
+                        name: '文章发布'
                     }
                 ]
             },

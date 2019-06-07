@@ -32,13 +32,17 @@ class Theader extends React.Component {
                 files: ''
             },
             formAvatar: "",
-            userId:this.props.store.userId,
+            user_id:this.props.store.user_id,
             menu: <Menu>
                     <Menu.Item key="1" onClick={this.handleVisibleShow}>
-                      个人中心
+                      个人资料
                     </Menu.Item>
                     <Menu.Divider />
-                    <Menu.Item key="2" onClick={this.logout}>退出登录</Menu.Item>
+                    <Menu.Item key="2" onClick={this.handleVisibleShow}>
+                      修改密码
+                    </Menu.Item>
+                    <Menu.Divider />
+                    <Menu.Item key="3" onClick={this.logout}>退出登录</Menu.Item>
                   </Menu>
         }
     }
@@ -71,7 +75,7 @@ class Theader extends React.Component {
         let formData = new FormData()
         formData.append('imgFile', this.state.files)
         formData.append('username', this.state.form.username)
-        formData.append('userId', localStorage.getItem('userId'))
+        formData.append('user_id', localStorage.getItem('user_id'))
         util.post(UPLOAD, formData, res => {
             _this.getUserInfo()
         })
@@ -81,11 +85,11 @@ class Theader extends React.Component {
     }
 
     getUserInfo = () => {
-        console.log(this.state.userId)
+        console.log(this.state.user_id)
         let _this = this
         util.loading(true)
         util.get(GETUSERINFO, {
-            userId:localStorage.getItem('userId') || _this.state.userId
+            user_id:localStorage.getItem('user_id') || _this.state.user_id
         }, res => {
             util.loading(false)
             let from = {
@@ -94,8 +98,8 @@ class Theader extends React.Component {
 
             _this.setState({
                 username: res.username,
-                userAvatar: res.img ? global.imgUrl + res.img : avatar,
-                formAvatar: res.img ? global.imgUrl + res.img : avatar,
+                userAvatar: res.avatar ? global.imgUrl + res.avatar : avatar,
+                formAvatar: res.avatar ? global.imgUrl + res.avatar : avatar,
                 form: from
             })
         })

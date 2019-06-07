@@ -10,11 +10,9 @@ export default class Footer extends React.Component{
     }
     render() {
         return (
-            <Col span={18}>
-                <div id="content">
-                    {this.props.children}
-                </div>
-            </Col>
+            <div id="content">
+                {this.props.children}
+            </div>
         )
     }
 }

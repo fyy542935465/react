@@ -20,7 +20,7 @@ export default [
             {
                 path: '/article/manage',
                 component: 'ArticleManage',
-                name: '文章管理',
+                name: '文章发布',
                 icon:'book',
             }
         ]
@@ -31,11 +31,11 @@ export default [
         name: '后台管理',
         icon: 'user'
     },
-    {
-        path: '/about',
-        component: 'About',
-        name: '关于我们',
-        icon:'coffee'
-    }
+    // {
+    //     path: '/about',
+    //     component: 'About',
+    //     name: '关于我们',
+    //     icon:'coffee'
+    // }
 
 ]

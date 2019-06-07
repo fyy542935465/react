@@ -17,11 +17,11 @@ class Admin extends React.Component {
     }
 
     componentWillMount() {
-        util.get('/getAdmin',{userId:this.props.store.userId}, res => {
+        util.get('/getAdmin',{user_id:this.props.store.user_id}, res => {
             console.log(res)
             this.setState({
-                isAdmin:res.isAdmin,
-                superAdmin:res.superAdmin
+                is_admin:res.is_admin,
+                super_admin:res.super_admin
             })
             this.getArticleList()
             this.getAccountList()
@@ -38,7 +38,9 @@ class Admin extends React.Component {
     }
 
     getArticleList() {
+        util.loading(true)
         util.get('/article/getArticleList', {}, res => {
+            util.loading(false)
             this.setState({
                 articleData: res
             })
@@ -46,7 +48,9 @@ class Admin extends React.Component {
     }
 
     getAccountList() {
+        util.loading(true)
         util.get('/getUserList', {}, res => {
+            util.loading(false)
             this.setState({
                 accountData: res
             })
@@ -59,16 +63,15 @@ class Admin extends React.Component {
 
     delAccount(id){
         let params = {
-            userId:this.props.store.userId,
             accountId:id
         }
         let msg = '确认删除选择的账号？'
-        if(params.userId == params.accountId){
+        if(this.props.store.user_id == id){
             msg = "确认删除选择的账号，删除需要重新登陆"
         }
         util.confirm(msg, () => {
             util.post('/delAccount',params,res => {
-                if(params.userId == params.accountId){
+                if(params.user_id == params.accountId){
                     this.props.history.push('/login')
                     return
                 }
@@ -77,17 +80,36 @@ class Admin extends React.Component {
         })
     }
 
+    delArticle(id){
+        util.confirm('确定删除此篇文章？', () => {
+            util.post('/article/delete',{
+                id:id
+            }, res => {
+                console.log(res)
+                this.getArticleList(this.state.activeVal)
+            })
+        })
+    }
+
+    adminOprate(id){
+        util.post('/adminOprate',{
+            id:id
+        },res => {
+            this.getAccountList()
+        })
+    }
+
     judgeAdmin(item){
         let el = '';
-        if(item.isAdmin){
-            if(this.state.superAdmin){
-                if(item.userId == this.props.store.userId){
+        if(item.is_admin){
+            if(this.state.super_admin){
+                if(item.user_id == this.props.store.user_id){
                     return ''
                 }
-                return <a href="javascript:;" className="is-admin">撤销管理员</a>
+                return <a href="javascript:;" className="is-admin" onClick={this.adminOprate.bind(this,item.user_id)}>撤销管理员</a>
             }else{
-                if(item.superAdmin){
-                    if(item.userId == this.props.store.userId){
+                if(item.super_admin){
+                    if(item.user_id == this.props.store.user_id){
                         return ''
                     }
                     return <span className="is-admin">超级管理员</span>
@@ -95,8 +117,8 @@ class Admin extends React.Component {
                 return <span className="is-admin">管理员</span>
             }
         }else{
-            if(this.state.superAdmin){
-                return <a href="javascript:;" className="is-admin">设置管理员</a>
+            if(this.state.super_admin){
+                return <a href="javascript:;" className="is-admin" onClick={this.adminOprate.bind(this,item.user_id)}>设置管理员</a>
             }
         }
     }
@@ -104,13 +126,13 @@ class Admin extends React.Component {
     accountTmp(data) {
         return data.map((item, index) => {
             return (
-                <li key={index} id={item.userId}>
-                    <img src={item.img? global.imgUrl + item.img : require('../../common/img/avatar.png')} alt="" className="avatar" />
+                <li key={index} id={item.user_id}>
+                    <img src={item.avatar? global.imgUrl + item.avatar : require('../../common/img/avatar.png')} alt="" className="avatar" />
                     <span className="name">{item.username}</span>{this.judgeAdmin(item)}
                     <div className="oprate">
-                        {item.superAdmin? '' : <a href="javascript:;" onClick={this.delAccount.bind(this,item.userId)}>删除</a>}
+                        {item.super_admin? '' : <a href="javascript:;" onClick={this.delAccount.bind(this,item.user_id)}>删除</a>}
                     </div>
-                    <span className="updateTime">{item.updateTime}</span>
+                    <span className="updateTime">{item.update_time}</span>
                 </li>
             )
         })
@@ -120,12 +142,12 @@ class Admin extends React.Component {
         return data.map((item, index) => {
             return (
                 <li key={index} id={item._id}>
-                    <span className="name">作者：{item.author}</span>
-                    <span className="title" onClick={this.toArticle.bind(this,item._id)}>标题：<a href="javascript:;">{item.title}</a></span>
+                    <span className="name">作者：{item.username}</span>
+                    <span className="title" onClick={this.toArticle.bind(this,item.id)}>标题：<a href="javascript:;">{item.title}</a></span>
                     <div className="oprate">
-                        <a href="javascript:;">删除</a>
+                        <a href="javascript:;" onClick={this.delArticle.bind(this,item.id)}>删除</a>
                     </div>
-                    <span className="updateTime">{item.updateTime}</span>
+                    <span className="updateTime">{item.create_time}</span>
                     
                 </li>
             )

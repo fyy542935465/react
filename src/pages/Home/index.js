@@ -32,7 +32,7 @@ class Home extends React.Component{
         return (
             <Fragment>
                     <Theader></Theader>
-                    <Row>
+                    <div id="wapper">
                         <NavLeft />
                         
                         <Content>
@@ -47,7 +47,7 @@ class Home extends React.Component{
                                 </Switch>
                             </Router>
                         </Content>
-                    </Row>
+                    </div>
             </Fragment>
         )
     }

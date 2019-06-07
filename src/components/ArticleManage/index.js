@@ -10,7 +10,7 @@ class ArticleManage extends React.Component {
         super(props)
         this.state = {
             form: {
-                editContent: '',
+                edit_content: '',
                 title: ''
             }
         }
@@ -18,7 +18,7 @@ class ArticleManage extends React.Component {
 
     handleEditChange(event, me) {
         let form = me.state.form
-        form['editContent'] = event
+        form['edit_content'] = event
         me.setState({ form: form })
         console.log(me.state.form)
     }
@@ -30,19 +30,19 @@ class ArticleManage extends React.Component {
             return
         }
 
-        if(!params.editContent){
+        if(!params.edit_content){
             message.warning('文章内容不能为空')
             return
         }
 
-        params.userId = this.props.store.userId
+        params.user_id = this.props.store.user_id
         util.loading(true)
         util.post('/article/save', params, (res) => {
             util.loading(false)
             message.success('保存成功')
             this.setState({
                 form: {
-                    editContent: '',
+                    edit_content: '',
                     title: ''
                 }
             })
@@ -58,8 +58,8 @@ class ArticleManage extends React.Component {
         util.get('/article/' + id,{}, res => {
             console.log(res)
             let form = {
-                editContent:res.editContent,
-                title:'editContent'
+                edit_content:res.edit_content,
+                title:res.title
             }
 
             this.setState({
@@ -80,7 +80,7 @@ class ArticleManage extends React.Component {
                     </Col>
                 </Row>
 
-                <RcWangEditor value={this.state.form.editContent} onChange={event => {
+                <RcWangEditor value={this.state.form.edit_content} onChange={event => {
                     this.handleEditChange(event, this)
                 }} />
 

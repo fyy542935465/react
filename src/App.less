@@ -1,6 +1,9 @@
 @import './style/mixin.less';
 
 body{
+  #App{
+    height: calc(100vh);
+  }
   .nav-text{
     a{
       color:#fff;
@@ -17,13 +20,21 @@ body{
   float: left;
 }
 
-#navLeft{
-  min-height: calc(100vh - 64px);
+#wapper{
+  display:flex;
+  -webkit-display:flex;
+  #navLeft{
+    width:300px;
+    flex:none;
+  }
+  
+  #content{
+    padding:20px;
+    flex:1;
+  }
 }
 
-#content{
-  padding:20px;
-}
+
 
 .ant-tabs-bar{
   margin:0 !important;

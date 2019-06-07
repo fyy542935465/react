@@ -15,19 +15,19 @@ class ArticleList extends React.Component {
                     key: 'title',
                     render: (text, record) => (
                         <span>
-                            <a href="javascript:;" className="article-title" onClick={this.getDetail.bind(this, record._id)}>{record.title}</a>
+                            <a href="javascript:;" className="article-title" onClick={this.getDetail.bind(this, record.id)}>{record.title}</a>
                         </span>
                     )
                 },
                 {
                     title: '作者',
-                    dataIndex: 'author',
-                    key: 'author',
+                    dataIndex: 'username',
+                    key: 'username',
                 },
                 {
                     title: '更新时间',
-                    dataIndex: 'updateTime',
-                    key: 'updateTime',
+                    dataIndex: 'create_time',
+                    key: 'create_time',
                 }
             ],
             tabs: ['所有', '我的'],
@@ -60,15 +60,15 @@ class ArticleList extends React.Component {
         let params = {}
         let columns = [].concat(this.state.defaultData)
         if (item != '所有') {
-            params.userId = this.props.store.userId
+            params.user_id = this.props.store.user_id
             columns.push({
                 title: '操作',
                 dataIndex: 'oprate',
                 key: 'oprate',
                 render: (text, record) => (
                     <div className="oprate">
-                        <a href="javascript:;" onClick={this.edit.bind(this, record._id)}>编辑</a>
-                        <a href="javascript:;" onClick={this.delete.bind(this, record._id)}>删除</a>
+                        <a href="javascript:;" onClick={this.edit.bind(this, record.id)}>编辑</a>
+                        <a href="javascript:;" onClick={this.delete.bind(this, record.id)}>删除</a>
                     </div>
                 )
             })

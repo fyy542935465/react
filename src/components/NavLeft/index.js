@@ -21,7 +21,7 @@ class NavLeft extends React.Component {
     }
 
     componentWillMount() {
-        util.get('/getAdmin',{userId:this.props.store.userId}, res => {
+        util.get('/getAdmin',{user_id:this.props.store.user_id}, res => {
             console.log(res)
             this.eachMenu(menu,res)
         })
@@ -30,7 +30,7 @@ class NavLeft extends React.Component {
 
     eachMenu(list,res){
         let menuList =  list.map( (item,key) => {
-            if(!res.superAdmin && !res.isAdmin){
+            if(!res.super_admin && !res.is_admin){
                 if(item.path == '/admin') return
             }
 
@@ -68,18 +68,16 @@ class NavLeft extends React.Component {
     }
     render() {
         return (
-            <Col span={6}>
-                <div id="navLeft">
-                    <Menu
-                      mode="inline"
-                      selectedKeys={[this.props.store.menuName]}
-                      defaultOpenKeys={[this.props.store.defaultMenuKey]}
-                      style={{ height: '100%', borderRight: 0 }}
-                    >
-                        {this.state.menuList}
-                    </Menu>
-                </div>
-            </Col>
+            <div id="navLeft">
+                <Menu
+                    mode="inline"
+                    selectedKeys={[this.props.store.menuName]}
+                    defaultOpenKeys={[this.props.store.defaultMenuKey]}
+                    style={{ height: '100%', borderRight: 0 }}
+                >
+                    {this.state.menuList}
+                </Menu>
+            </div>
         )
     }
 }

@@ -35,9 +35,9 @@ class ArticleDetails extends React.Component{
                         <Col span={16}>
                             <div className="article-top">
                                 <span className="article-title">{this.state.info.title}</span>
-                                <span className="update-time">{this.state.info.updateTime}&nbsp;&nbsp;&nbsp;&nbsp;作者：{this.state.info.author}</span>
+                                <span className="update-time">{this.state.info.create_time}&nbsp;&nbsp;&nbsp;&nbsp;作者：{this.state.info.username}</span>
                             </div>
-                            <div className="article-content" dangerouslySetInnerHTML={{__html:this.state.info.editContent}}></div>
+                            <div className="article-content" dangerouslySetInnerHTML={{__html:this.state.info.edit_content}}></div>
                         </Col>
                         <Col span={8}>
 

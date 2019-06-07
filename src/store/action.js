@@ -50,12 +50,12 @@ export const setToken = (token) => {
 }
 
 /*
-* 设置userId
+* 设置user_id
 * */
-export const setId = (userId) => {
+export const setId = (user_id) => {
     return {
         type:type.ID,
-        userId
+        user_id
     }
 }
 

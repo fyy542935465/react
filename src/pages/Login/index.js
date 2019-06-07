@@ -3,7 +3,7 @@ import './style.less'
 import { Input, Icon, Button, message } from 'antd'
 import util from '../../util'
 import { LOGIN, REGISTER } from '../../config/api'
-import { setToken, setId,setSuperAdmin,setAdmin} from '../../store/action'
+import { setToken, setId,setsuper_admin,setAdmin} from '../../store/action'
 import { connect } from 'react-redux'
 import store from '../../store'
 class Login extends React.Component {
@@ -85,11 +85,12 @@ class Login extends React.Component {
         }, res => {
             util.loading(false)
             store.dispatch(setToken(res.token))
-            store.dispatch(setId(res.userId))
+            store.dispatch(setId(res.user_id))
             localStorage.setItem('token', res.token)
-            localStorage.setItem('userId', res.userId)
+            localStorage.setItem('user_id', res.user_id)
 
             _this.props.history.push('/home');
+            console.log(res)
         })
     }
     render() {

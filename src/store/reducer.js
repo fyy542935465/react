@@ -9,7 +9,7 @@ const initialState = {
     defaultMenuKey: '首页',
     loading: false,
     token: localStorage.getItem('token') || '',
-    userId: localStorage.getItem('userId') || ''
+    user_id: localStorage.getItem('user_id') || ''
 }
 
 export default (state = initialState, action) => {
@@ -37,11 +37,11 @@ export default (state = initialState, action) => {
                 ...state,
                 token: action.token
             }
-        //userId
+        //user_id
         case type.ID:
             return {
                 ...state,
-                userId: action.userId
+                user_id: action.user_id
             }
         default:
             return {
