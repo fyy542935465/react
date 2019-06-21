@@ -56,8 +56,11 @@ class ArticleList extends React.Component {
         })
     }
 
-    getArticleList(item) {
-        let params = {}
+    getArticleList(item,page,pageSize) {
+        let params = {
+            pageSize:pageSize || 10,
+            page:page || 1
+        }
         let columns = [].concat(this.state.defaultData)
         if (item != '所有') {
             params.user_id = this.props.store.user_id
@@ -77,12 +80,20 @@ class ArticleList extends React.Component {
         util.loading(true)
         util.get('/article/getArticleList', params, res => {
             util.loading(false)
-            res.map( (item,index) => {
+            res.list.map( (item,index) => {
                 item.key = index
             })
             this.setState({
-                dataSource: res,
-                columns:columns
+                dataSource: res.list,
+                columns:columns,
+                pagination:{    
+                    total:res.total,
+                    current:res.page,
+                    pageSize:params.pageSize,
+                    onChange: page => {
+                        this.getArticleList(item,page)
+                    }
+                }
             })
         })
     }
@@ -108,7 +119,7 @@ class ArticleList extends React.Component {
                 <div className="tabs">
                     {this.renderTabs()}
                 </div>
-                <Table dataSource={this.state.dataSource} columns={this.state.columns} on />
+                <Table dataSource={this.state.dataSource} columns={this.state.columns} pagination={this.state.pagination} on />
             </div>
         )
     }

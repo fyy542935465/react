@@ -50,7 +50,6 @@ changePopstate();
 window.addEventListener('popstate',(state) => {
     // 监听到返回事件，注意，只有触发了返回才会执行这个方法
     changePopstate();
-    console.log(state);
 })
 
 

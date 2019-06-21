@@ -85,7 +85,6 @@ class Theader extends React.Component {
     }
 
     getUserInfo = () => {
-        console.log(this.state.user_id)
         let _this = this
         util.loading(true)
         util.get(GETUSERINFO, {

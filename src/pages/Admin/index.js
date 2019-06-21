@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs } from 'antd'
+import { Tabs,Pagination } from 'antd'
 import util from "../../util"
 import { connect } from 'react-redux'
 import global from '../../config/global'
@@ -11,8 +11,14 @@ class Admin extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            accountData: [],
-            articleData: []
+            account: {
+                list:[],
+                pageSize:0
+            },
+            article: {
+                list:[],
+                pageSize:0
+            }
         }
     }
 
@@ -37,22 +43,40 @@ class Admin extends React.Component {
         }
     }
 
-    getArticleList() {
+    getArticleList(page,pageSize) {
+        let params = {
+            page:page || 1,
+            pageSize:pageSize || 10
+        }
         util.loading(true)
-        util.get('/article/getArticleList', {}, res => {
+        util.get('/article/getArticleList', params, res => {
             util.loading(false)
             this.setState({
-                articleData: res
+                article:{
+                    list:res.list,
+                    page:res.page,
+                    total:res.total,
+                    pageSize:res.pageSize
+                }
             })
         })
     }
 
-    getAccountList() {
+    getAccountList(page,pageSize) {
+        let params = {
+            page:page || 1,
+            pageSize:pageSize || 10
+        }
         util.loading(true)
-        util.get('/getUserList', {}, res => {
+        util.get('/getUserList', params, res => {
             util.loading(false)
             this.setState({
-                accountData: res
+                account:{
+                    list:res.list,
+                    page:res.page,
+                    total:res.total,
+                    pageSize:res.pageSize
+                }
             })
         })
     }
@@ -104,7 +128,7 @@ class Admin extends React.Component {
         if(item.is_admin){
             if(this.state.super_admin){
                 if(item.user_id == this.props.store.user_id){
-                    return ''
+                    return <a href="javascript:;" className="is-admin"></a>
                 }
                 return <a href="javascript:;" className="is-admin" onClick={this.adminOprate.bind(this,item.user_id)}>撤销管理员</a>
             }else{
@@ -154,6 +178,16 @@ class Admin extends React.Component {
         })
     }
 
+    changeArticleSize(current){
+        console.log(current)
+        this.getArticleList(current)
+    }
+
+    changeAccountSize(current){
+        console.log(current)
+        this.getAccountList(current)
+    }
+
 
     render() {
         return (
@@ -161,14 +195,19 @@ class Admin extends React.Component {
                 <Tabs onChange={this.switch.bind(this)} type="card">
                     <TabPane tab="账号管理" key="1">
                         <ul className="account-list">
-                            {this.accountTmp(this.state.accountData)}
+                            {this.accountTmp(this.state.account.list)}
                         </ul>
-
+                        <Pagination style={{display:(this.state.account.list.length) ? 'block' : 'none'}}className="list-pagination" current={this.state.account.page} total={this.state.account.total} 
+                        pageSize={this.state.account.pageSize} 
+                        onChange={this.changeAccountSize.bind(this)}></Pagination>
                     </TabPane>
                     <TabPane tab="文章管理" key="2">
                         <ul className="article-list">
-                            {this.articleTmp(this.state.articleData)}
+                            {this.articleTmp(this.state.article.list)}
                         </ul>
+                        <Pagination className="list-pagination" current={this.state.article.page} total={this.state.article.total} 
+                        pageSize={this.state.article.pageSize} 
+                        onChange={this.changeArticleSize.bind(this)}></Pagination>
                     </TabPane>
                 </Tabs>
             </div>

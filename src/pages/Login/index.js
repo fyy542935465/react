@@ -19,8 +19,12 @@ class Login extends React.Component {
         }
     }
 
-    componentWillMount() {
-        
+    componentDidMount() {
+        document.addEventListener("keydown", e => {
+            if(e.keyCode === 13){
+                this.userOperation()
+            }
+        });
     }
 
     resetForm() {

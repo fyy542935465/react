@@ -5,6 +5,7 @@ import Content from '../../components/Content'
 import {HashRouter as Router,Route,Redirect,Switch} from 'react-router-dom'
 import { connect } from 'react-redux'
 import util from '../../util'
+import Footer from '../../components/Footer'
 import {
     Row
 } from 'antd'
@@ -48,6 +49,7 @@ class Home extends React.Component{
                             </Router>
                         </Content>
                     </div>
+                    <Footer></Footer>
             </Fragment>
         )
     }
