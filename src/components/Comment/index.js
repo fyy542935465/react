@@ -54,7 +54,7 @@ class Comment extends React.Component{
     }
     send(){
         util.loading(true)
-        util.post('/article/comment/save',{
+        util.post('/api/article/comment/save',{
             article_id:this.state.id,
             user_id:this.props.store.user_id,
             comment:this.state.comment
@@ -66,7 +66,7 @@ class Comment extends React.Component{
     }
 
     getComment(id,page){
-        util.get('/article/comment',{
+        util.get('/api/article/comment',{
             id:id || this.state.id,
             page:page || 1,
             pageSize:this.state.pageSize

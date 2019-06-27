@@ -23,7 +23,7 @@ class ArticleDetails extends React.Component{
     }
 
     count(){
-        util.post('/article/detail/count',{
+        util.post('/api/article/detail/count',{
             user_id:this.props.store.user_id,
             id:this.props.match.params.id
         }, res => {
@@ -36,7 +36,7 @@ class ArticleDetails extends React.Component{
     getDetail(id){
         id = id || this.props.match.params.id
         util.loading(true)
-        util.get('/article/detail/' + id,{}, res => {
+        util.get('/api/article/detail/' + id,{}, res => {
             util.loading(false)
             this.setState({
                 info:res.acticleInfo,

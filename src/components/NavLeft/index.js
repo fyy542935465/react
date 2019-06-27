@@ -21,7 +21,7 @@ class NavLeft extends React.Component {
     }
 
     componentWillMount() {
-        util.get('/getAdmin',{user_id:this.props.store.user_id}, res => {
+        util.get('/api/getAdmin',{user_id:this.props.store.user_id}, res => {
             console.log(res)
             this.eachMenu(menu,res)
         })

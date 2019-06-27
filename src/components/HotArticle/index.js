@@ -17,7 +17,7 @@ class HotArticle extends React.Component {
 
     // //获取最新发表
     getHotArticleList(){
-        util.get('/article/getHotArticleList',{},res => {
+        util.get('/api/article/getHotArticleList',{},res => {
             this.setState({
                 hotArticle:this.HotArticleList(res.list)
             })

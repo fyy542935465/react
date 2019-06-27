@@ -48,7 +48,7 @@ class ArticleList extends React.Component {
     }
 
     delete(id){
-        util.post('/article/delete',{
+        util.post('/api/article/delete',{
             id:id
         }, res => {
             console.log(res)
@@ -78,7 +78,7 @@ class ArticleList extends React.Component {
         }
 
         util.loading(true)
-        util.get('/article/getArticleList', params, res => {
+        util.get('/api/article/getArticleList', params, res => {
             util.loading(false)
             res.list.map( (item,index) => {
                 item.key = index

@@ -23,7 +23,7 @@ class Admin extends React.Component {
     }
 
     componentWillMount() {
-        util.get('/getAdmin',{user_id:this.props.store.user_id}, res => {
+        util.get('/api/getAdmin',{user_id:this.props.store.user_id}, res => {
             console.log(res)
             this.setState({
                 is_admin:res.is_admin,
@@ -49,7 +49,7 @@ class Admin extends React.Component {
             pageSize:pageSize || 10
         }
         util.loading(true)
-        util.get('/article/getArticleList', params, res => {
+        util.get('/api/article/getArticleList', params, res => {
             util.loading(false)
             this.setState({
                 article:{
@@ -68,7 +68,7 @@ class Admin extends React.Component {
             pageSize:pageSize || 10
         }
         util.loading(true)
-        util.get('/getUserList', params, res => {
+        util.get('/api/getUserList', params, res => {
             util.loading(false)
             this.setState({
                 account:{
@@ -94,7 +94,7 @@ class Admin extends React.Component {
             msg = "确认删除选择的账号，删除需要重新登陆"
         }
         util.confirm(msg, () => {
-            util.post('/delAccount',params,res => {
+            util.post('/api/delAccount',params,res => {
                 if(params.user_id == params.accountId){
                     this.props.history.push('/login')
                     return
@@ -106,7 +106,7 @@ class Admin extends React.Component {
 
     delArticle(id){
         util.confirm('确定删除此篇文章？', () => {
-            util.post('/article/delete',{
+            util.post('/api/article/delete',{
                 id:id
             }, res => {
                 console.log(res)
@@ -116,7 +116,7 @@ class Admin extends React.Component {
     }
 
     adminOprate(id){
-        util.post('/adminOprate',{
+        util.post('/api/adminOprate',{
             id:id
         },res => {
             this.getAccountList()

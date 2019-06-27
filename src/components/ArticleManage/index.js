@@ -37,7 +37,7 @@ class ArticleManage extends React.Component {
 
         params.user_id = this.props.store.user_id
         util.loading(true)
-        util.post('/article/save', params, (res) => {
+        util.post('/api/article/save', params, (res) => {
             util.loading(false)
             message.success('保存成功')
             this.setState({
@@ -55,7 +55,7 @@ class ArticleManage extends React.Component {
         if(!id){
             return
         }
-        util.get('/article/' + id,{}, res => {
+        util.get('/api/article/' + id,{}, res => {
             console.log(res)
             let form = {
                 edit_content:res.edit_content,

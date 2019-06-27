@@ -22,7 +22,7 @@ class NewestArticle extends React.Component {
 
     // //获取最新发表
     getNewArticleList(){
-        util.get('/article/getArticleList',{
+        util.get('/api/article/getArticleList',{
             page:1,
             pageSize:10
         },res => {

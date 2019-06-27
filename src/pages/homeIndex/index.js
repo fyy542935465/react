@@ -26,7 +26,7 @@ export default class HomeIndex extends React.Component{
 
     //获取浏览记录
     getBrowsingRecords(){
-        util.get('/getBrowsingRecords',{},res => {
+        util.get('/api/getBrowsingRecords',{},res => {
             console.log(res)
             if(res.dateList.length){
                 this.echarsInit(res.dateList,res.countList)

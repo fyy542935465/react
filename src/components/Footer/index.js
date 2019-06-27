@@ -16,7 +16,7 @@ class Footer extends React.Component{
     }
 
     count(){
-        util.post('/count',{
+        util.post('/api/count',{
             user_id:this.props.store.user_id
         },res => {
             this.setState({
