@@ -2,9 +2,25 @@
 #back_btn{
     margin-bottom: 20px;
 }
+.count{
+    float:right;
+    margin-top: 5px;
+    font-size: 14px;
+    color:#999;
+}
 #articleDetails{
     padding:20px;
-    #artcicleIfo{
+    #article-container{
+        display:flex;
+        .article-left{
+            flex:1;
+        }
+
+        .article-right{
+            width:350px;
+            flex:none;
+        }
+        #artcicleIfo{
         padding:10px;
         background:#fff;
         border-radius: 5px;
@@ -28,42 +44,8 @@
         }
 
     }
+    }
     
-    #comment{
-        margin-top: 20px;
-        border-bottom: 1px solid #f0f0f0;
-        overflow: hidden;
-        .comment-title{
-            font-size: 14px;
-            padding:5px 0;
-            margin-bottom: 5px;
-            img{
-                display: inline-block;
-                float:right;
-                width:15px;
-                cursor: pointer;
-                vertical-align: middle;
-                margin:0;
-            }
-        }
-        #comment_text{
-            
-
-        }
-
-        #send_btn{
-            float:right;
-            margin:5px 0 10px;
-        }
-    }
-
-    #noData{
-        height:40px;
-        line-height: 40px;
-        text-align: center;
-        color:#bbb;
-        font-size: 12px;
-    }
 
     p,pre,img{
         line-height: 24px;
@@ -98,5 +80,8 @@
                 padding:0 10px;
             }
         }
+    }
+    .ant-pagination{
+        text-align: right;
     }
 }

@@ -1,6 +1,7 @@
 import React,{Fragment}from 'react';
 import util from "../../util"
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 class HotArticle extends React.Component {
     constructor(props) {
@@ -16,15 +17,10 @@ class HotArticle extends React.Component {
 
     // //获取最新发表
     getHotArticleList(){
-        util.get('/article/getHotArticleList',{
-            page:1,
-            pageSize:10
-        },res => {
+        util.get('/article/getHotArticleList',{},res => {
             this.setState({
-                newestArticle:this.HotArticleList(res.list)
+                hotArticle:this.HotArticleList(res.list)
             })
-
-            console.log(this.state)
         })
     }
 
@@ -52,4 +48,4 @@ class HotArticle extends React.Component {
     }
 }
 
-export default connect(util.mapStateToProps)(HotArticle)
+export default withRouter(connect(util.mapStateToProps)(HotArticle))

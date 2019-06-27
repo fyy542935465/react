@@ -2,6 +2,8 @@ import store from '../store'
 import { Loading } from "../store/action"
 import { get, post } from './http'
 import { Modal,Button} from 'antd'
+import env from '../env'
+import site from '../config/index'
 
 /*
 *
@@ -40,6 +42,7 @@ const confirm = (msg,confirmFn,cancelFn) => {
 }
 
 export default {
+    imgUrl:site[env.CURRENT].imgUrl,
     get,
     post,
     handleChange,

@@ -24,7 +24,6 @@ export const get = (url,params,callback) => {
 }
 
 export const post = (url,params,callback) => {
-    console.log(url)
     return axios.post( url,params)
         .then( res => {
             checkStatus(res,callback)

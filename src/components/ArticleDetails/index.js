@@ -13,12 +13,24 @@ class ArticleDetails extends React.Component{
         super(props)
         this.state = {
             info:{},
-            commentList:[]
+            commentList:[],
+            id:this.props.match.params.id
         }
     }
 
     componentDidMount(){
-        this.getDetail()
+        this.count()
+    }
+
+    count(){
+        util.post('/article/detail/count',{
+            user_id:this.props.store.user_id,
+            id:this.props.match.params.id
+        }, res => {
+            if(res){
+                this.getDetail()
+            }
+        })
     }
 
     getDetail(id){
@@ -39,11 +51,14 @@ class ArticleDetails extends React.Component{
     
     componentWillReceiveProps(nextProps){
         let current_id = nextProps.match.params.id
-        if(current_id && (current_id != this.state.id)){
-            this.setState({
-                id: current_id
-            })
+        let id = this.props.match.params.id
+        if(current_id != id){
+            console.log(current_id,'=>' + id)
             this.getDetail(current_id)
+            this.setState({
+                prevId:id,
+                id:current_id
+            })
         }
     }
     render() {
@@ -51,9 +66,12 @@ class ArticleDetails extends React.Component{
             <div>
                 <Theader></Theader>
                 <div id="articleDetails" style={{display:(this.state.info.title)? 'block' : 'none'}}>
-                    <Button size="small" onClick={this.back.bind(this)} id="back_btn">返回</Button>
-                    <Row gutter={16}>
-                        <Col span={16}>
+                    <div className="top">
+                         <Button size="small" onClick={this.back.bind(this)} id="back_btn">返回</Button>
+                        <div className="count">浏览次数：{this.state.info.count}</div>
+                    </div>
+                    <Row gutter={16} id="article-container">
+                        <Col span={16} className="article-left">
                             {/* 文章内容 */}
                             <div id="artcicleIfo">
                                 <div className="article-top">
@@ -63,9 +81,9 @@ class ArticleDetails extends React.Component{
                                 <div className="article-content" dangerouslySetInnerHTML={{__html:this.state.info.edit_content}}></div>
                             </div>
 
-                            <Comment id={this.state.id} commentList={this.state.commentList}/>
+                            <Comment prevId={this.state.prevId}  id={this.state.id} getDetail={this.getDetail.bind(this)}/>
                         </Col>
-                        <Col span={8}>
+                        <Col span={8} className="article-right">
                             <div className="side-right">
                                 <div className="panel">
                                     <div className="panel-title">最新发表</div>

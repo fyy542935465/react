@@ -14,7 +14,6 @@ import util from '../../util'
 import config from '../../config'
 import store from '../../store'
 import { setToken,setId } from '../../store/action'
-import global from '../../config/global'
 import { connect } from 'react-redux'
 const avatar = require('../../common/img/avatar.png')
 
@@ -97,8 +96,8 @@ class Theader extends React.Component {
 
             _this.setState({
                 username: res.username,
-                userAvatar: res.avatar ? global.imgUrl + res.avatar : avatar,
-                formAvatar: res.avatar ? global.imgUrl + res.avatar : avatar,
+                userAvatar: res.avatar ? util.imgUrl + res.avatar : avatar,
+                formAvatar: res.avatar ? util.imgUrl + res.avatar : avatar,
                 form: from
             })
         })
