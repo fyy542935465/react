@@ -5,6 +5,6 @@ export  default {
     },
     PRO:{
         url:'http://47.101.49.14:3333',
-        imgUrl:'http://47.101.49.14:3306/'
+        imgUrl:'http://47.101.49.14:3825/'
     }
 }
