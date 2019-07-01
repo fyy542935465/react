@@ -46,7 +46,7 @@ class Admin extends React.Component {
     getArticleList(page,pageSize) {
         let params = {
             page:page || 1,
-            pageSize:pageSize || 10
+            pageSize:pageSize || 5
         }
         util.loading(true)
         util.get('/api/article/getArticleList', params, res => {

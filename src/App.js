@@ -8,6 +8,10 @@ import Loading from './components/Loading'
 import Login from './pages/Login'
 import { connect } from 'react-redux'
 import util from './util'
+import { axiosRequest, axiosResponse } from './util/http'
+axiosRequest();
+axiosResponse();
+
 class App extends Component {
     constructor(props) {
         super(props);
