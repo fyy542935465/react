@@ -1,5 +1,6 @@
 import React,{Fragment} from 'react';
 import { Button,Input,Modal,Pagination } from 'antd'
+import io from 'socket.io-client'
 import util from "../../util"
 import { connect } from 'react-redux';
 import icon from '../../common/img/down.png' 
@@ -7,6 +8,8 @@ import defaultImg from '../../common/img/avatar.png'
 import "./style.less"
 
 const { TextArea } = Input;
+
+const socket = io('http://127.0.0.1:3826');
 
 class Comment extends React.Component{
     constructor(props){
@@ -22,10 +25,13 @@ class Comment extends React.Component{
 
     componentDidMount(){
         console.log(this.props.id)
-    //    console.log(this.props)
-    //    this.setState({
-    //        id:this.props.id
-    //    })
+            //向指定的服务器建立连接，地址可以省略
+        socket.emit('msg','你好服务器');
+        //自定义msg事件，发送‘你好服务器’字符串向服务器
+        socket.on('msg',(data)=>{
+        //监听浏览器通过msg事件发送的信息
+            console.log(data);//你好浏览器
+        });
        this.getComment(this.props.id)
     }
 
@@ -98,6 +104,10 @@ class Comment extends React.Component{
                         </div>
                         <div className="user-comment">
                             {item.comment}
+                        </div>
+                        <div className="right">
+                            <a href="javascript:;">回复</a>
+                            <a href="javascript:;">评论</a>
                         </div>
                     </li>
                 )

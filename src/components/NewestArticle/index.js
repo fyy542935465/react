@@ -24,7 +24,7 @@ class NewestArticle extends React.Component {
     getNewArticleList(){
         util.get('/api/article/getArticleList',{
             page:1,
-            pageSize:10
+            pageSize:5
         },res => {
             this.setState({
                 newestArticle:this.NewestArticleList(res.list)
@@ -32,6 +32,7 @@ class NewestArticle extends React.Component {
         })
     }
 
+    
     // //最新文章列表
     NewestArticleList(list){
         if(list && list.length){
