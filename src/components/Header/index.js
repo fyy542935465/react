@@ -37,10 +37,6 @@ class Theader extends React.Component {
                       个人资料
                     </Menu.Item>
                     <Menu.Divider />
-                    <Menu.Item key="2" onClick={this.handleVisibleShow}>
-                      修改密码
-                    </Menu.Item>
-                    <Menu.Divider />
                     <Menu.Item key="3" onClick={this.logout}>退出登录</Menu.Item>
                   </Menu>
         }

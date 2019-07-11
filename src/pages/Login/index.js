@@ -20,6 +20,7 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
+        util.loading(false)
         document.addEventListener("keydown", e => {
             if(e.keyCode === 13){
                 this.userOperation()
@@ -110,6 +111,7 @@ class Login extends React.Component {
                                 onChange={event => {
                                     util.handleChange('username', event, this)
                                 }}
+                                name="username"
                                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                 value={this.state.form.username}
                             />
@@ -122,6 +124,7 @@ class Login extends React.Component {
                                 onChange={event => {
                                     util.handleChange('password', event, this)
                                 }}
+                                name="password"
                                 value={this.state.form.password}
                             />
                         </div>

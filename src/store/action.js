@@ -6,7 +6,8 @@ export const type = {
     LOADING:'LOADING',
     TOKEN:'TOKEN',
     ID:'ID',
-    DEFAULT_MENU_KEY:'DEFAULT_MENU_KEY'
+    DEFAULT_MENU_KEY:'DEFAULT_MENU_KEY',
+    SOCKET:'SOCKET'
 }
 
 /*
@@ -56,6 +57,16 @@ export const setId = (user_id) => {
     return {
         type:type.ID,
         user_id
+    }
+}
+
+/*
+* socket连接
+* */
+export const setSocket = (socket) => {
+    return {
+        type:type.SOCKET,
+        socket
     }
 }
 

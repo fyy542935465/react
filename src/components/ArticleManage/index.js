@@ -46,7 +46,7 @@ class ArticleManage extends React.Component {
                     title: ''
                 }
             })
-            console.log(res)
+            this.props.history.push('/article/list')
         })
     }
 
@@ -55,11 +55,12 @@ class ArticleManage extends React.Component {
         if(!id){
             return
         }
-        util.get('/api/article/' + id,{}, res => {
-            console.log(res)
+        util.loading(true)
+        util.get('/api/article/detail/' + id,{}, res => {
+            util.loading(false)
             let form = {
-                edit_content:res.edit_content,
-                title:res.title
+                edit_content:res.acticleInfo.edit_content,
+                title:res.acticleInfo.title
             }
 
             this.setState({

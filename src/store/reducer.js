@@ -9,7 +9,8 @@ const initialState = {
     defaultMenuKey: '首页',
     loading: false,
     token: localStorage.getItem('token') || '',
-    user_id: localStorage.getItem('user_id') || ''
+    user_id: localStorage.getItem('user_id') || '',
+    socket:''
 }
 
 export default (state = initialState, action) => {
@@ -42,6 +43,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 user_id: action.user_id
+            }
+        //保存socket连接实例
+        case type.SOCKET:
+            return {
+                ...state,
+                socket: action.socket
             }
         default:
             return {

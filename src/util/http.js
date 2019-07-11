@@ -7,7 +7,7 @@ const Router = new HashRouter()
 const checkStatus = (res,sCallBack) => {
     if(!res.data.status){
         util.loading(false)
-        message.error(res.data.data.msg)
+        message.info(res.data.data.msg)
         return;
     }
 
@@ -17,8 +17,7 @@ const checkStatus = (res,sCallBack) => {
 export const get = (url,params,callback) => {
     return axios.get(url,{
         params:params
-    })
-        .then( res => {
+    }).then( res => {
             checkStatus(res,callback)
         }).catch( err => {
             console.log(err)
@@ -26,8 +25,7 @@ export const get = (url,params,callback) => {
 }
 
 export const post = (url,params,callback) => {
-    return axios.post( url,params)
-        .then( res => {
+    return axios.post( url,params).then( res => {
             checkStatus(res,callback)
         }).catch( err => {
             console.log(err)
@@ -52,10 +50,11 @@ export const axiosResponse = () => {
     let data = response.data
     if(!data.status){
         if(data.data.msg == 'token invalid'){
-            Router.history.push('login')
+            Router.history.push('/login')
+            return;
         }
         util.loading(false)
-        return;
+        return response;
     }
         return response;
         },error => {
