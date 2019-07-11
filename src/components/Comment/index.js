@@ -153,7 +153,7 @@ class Comment extends React.Component{
                             <a href="javascript:;" onClick={this.praise.bind(this,item.id)}><span className="iconfont iconzan"></span>{item.praise? item.praise + '人觉得' : ''}赞</a>
                             {this.props.store.user_id == item.user_id? '' : (<a href="javascript:;" onClick={this.commentVisible.bind(this,item.id,item)}><span className="iconfont iconpinglun"></span> 回复</a>)}
                         </div>
-                        {item.reply_comment.length? (
+                        {item.reply_comment && item.reply_comment.length? (
                             <div className="reply-list">
                             {
                                 item.reply_comment.map((it,i) => {
