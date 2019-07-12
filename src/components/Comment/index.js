@@ -216,7 +216,8 @@ class Comment extends React.Component{
         return (
             <Fragment>
                 <div id="comment">
-                    <div className="comment-title">共{this.state.total || 0} 条评论 <a href="javascript:;" className="write-comment" onClick={this.commentVisible.bind(this,'')}>写评论</a></div>
+                    {this.props.store.user_id == this.props.user_id? '' : <div className="comment-title">共{this.state.total || 0} 条评论 <a href="javascript:;" className="write-comment" onClick={this.commentVisible.bind(this,'')}>写评论</a></div>}
+                    
                     {/* 评论列表 */}
                     <div id="comment_list">
                         {this.commentList(this.state.list)}

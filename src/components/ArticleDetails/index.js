@@ -81,7 +81,7 @@ class ArticleDetails extends React.Component{
                                 <div className="article-content" dangerouslySetInnerHTML={{__html:this.state.info.edit_content}}></div>
                             </div>
 
-                            <Comment prevId={this.state.prevId}  id={this.state.id} getDetail={this.getDetail.bind(this)}/>
+                            <Comment prevId={this.state.prevId}  id={this.state.id} getDetail={this.getDetail.bind(this)} user_id={this.state.info.user_id}/>
                         </Col>
                         <Col span={8} className="article-right">
                             <div className="side-right">
