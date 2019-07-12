@@ -71,7 +71,8 @@ class Comment extends React.Component{
                 comment:this.state.comment,
                 comment_id:this.state.comment_id,
                 reply_id:this.state.reply_id,
-                reply_name:this.state.reply_name
+                reply_name:this.state.reply_name,
+                article_id:this.state.id || this.props.id
             }, res => {
                 util.loading(false)
                 this.commentVisible()

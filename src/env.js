@@ -1,3 +1,3 @@
 export default {
-    CURRENT: 'PRO'
+    CURRENT: 'DEV'
 }
