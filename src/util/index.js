@@ -43,6 +43,7 @@ const confirm = (msg,confirmFn,cancelFn) => {
 
 export default {
     imgUrl:site[env.CURRENT].imgUrl,
+    socket:site[env.CURRENT].socket,
     get,
     post,
     handleChange,

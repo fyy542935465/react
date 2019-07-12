@@ -29,7 +29,7 @@ class App extends Component {
 
     componentDidMount(){
         console.log(this.props)
-       let socket = io('http://127.0.0.1:3826')
+       let socket = io(util.socket)
        store.dispatch(setSocket(socket))
        socket.on('msg',(data)=>{
         //监听浏览器通过msg事件发送的信息
